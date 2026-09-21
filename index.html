@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All‑in‑One · E‑Commerce POS & Inventory</title>
+  <!-- Google Font & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #e8eef4;
+      background-image: radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.7) 0%, transparent 30%),
+                        radial-gradient(circle at 90% 70%, rgba(200, 220, 240, 0.5) 0%, transparent 40%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      line-height: 1.4;
+      animation: bgPulse 12s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgPulse {
+      0% { background-size: 100% 100%; }
+      100% { background-size: 120% 120%; }
+    }
+
+    /* claymorphism main container */
+    .clay-container {
+      max-width: 1280px;
+      width: 100%;
+      background: #eef3f9;
+      border-radius: 4rem 4rem 3rem 3rem;
+      box-shadow: 
+        20px 20px 40px rgba(166, 180, 200, 0.6),
+        -20px -20px 40px rgba(255, 255, 255, 0.9),
+        inset 2px 2px 6px rgba(255, 255, 255, 0.8),
+        inset -4px -4px 10px rgba(166, 180, 200, 0.3);
+      padding: 2.8rem 2.5rem;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      animation: containerAppear 0.8s ease-out forwards;
+      opacity: 0;
+      transform: scale(0.98) translateY(10px);
+    }
+
+    @keyframes containerAppear {
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .clay-container:hover {
+      box-shadow: 
+        24px 24px 48px rgba(166, 180, 200, 0.7),
+        -24px -24px 48px rgba(255, 255, 255, 0.95),
+        inset 2px 2px 6px rgba(255, 255, 255, 0.8),
+        inset -4px -4px 10px rgba(166, 180, 200, 0.35);
+    }
+
+    /* HEADER */
+    .header {
+      text-align: center;
+      margin-bottom: 3rem;
+      animation: fadeInDown 0.7s ease-out 0.1s both;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #1f2b3c;
+      text-shadow: 2px 2px 6px rgba(255, 255, 255, 0.8), -2px -2px 6px rgba(166, 180, 200, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      transition: text-shadow 0.3s ease;
+    }
+
+    .header h1:hover {
+      text-shadow: 3px 3px 10px rgba(255, 255, 255, 1), -3px -3px 10px rgba(166, 180, 200, 0.6);
+    }
+
+    .header h1 i {
+      font-size: 2.4rem;
+      color: #3a4f66;
+      filter: drop-shadow(2px 2px 6px rgba(255, 255, 255, 0.9));
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .header h1 i:hover {
+      transform: rotate(5deg) scale(1.05);
+      filter: drop-shadow(3px 3px 10px rgba(255, 255, 255, 1));
+    }
+
+    .subhead {
+      margin-top: 1rem;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #4f5f73;
+      background: rgba(255, 255, 255, 0.5);
+      display: inline-block;
+      padding: 0.5rem 1.8rem;
+      border-radius: 3rem;
+      box-shadow: inset 3px 3px 8px rgba(166, 180, 200, 0.4), inset -4px -4px 10px #ffffff, 4px 4px 12px rgba(166, 180, 200, 0.3);
+      backdrop-filter: blur(4px);
+      transition: all 0.3s ease;
+    }
+
+    .subhead:hover {
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: inset 3px 3px 8px rgba(166, 180, 200, 0.5), inset -4px -4px 12px #ffffff, 6px 6px 18px rgba(166, 180, 200, 0.4);
+    }
+
+    /* FEATURES GRID */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 1.8rem;
+      margin-bottom: 2.5rem;
+    }
+
+    /* clay card */
+    .clay-card {
+      background: #eef3f9;
+      border-radius: 2.5rem;
+      padding: 1.8rem 1.6rem 1.6rem 1.6rem;
+      box-shadow: 
+        12px 12px 24px rgba(166, 180, 200, 0.6),
+        -12px -12px 24px rgba(255, 255, 255, 0.9),
+        inset 2px 2px 6px rgba(255, 255, 255, 0.9),
+        inset -4px -4px 10px rgba(166, 180, 200, 0.3);
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      animation: cardAppear 0.6s ease-out forwards;
+      will-change: transform, box-shadow;
+    }
+
+    .clay-card:nth-child(1) { animation-delay: 0.05s; }
+    .clay-card:nth-child(2) { animation-delay: 0.1s; }
+    .clay-card:nth-child(3) { animation-delay: 0.15s; }
+    .clay-card:nth-child(4) { animation-delay: 0.2s; }
+    .clay-card:nth-child(5) { animation-delay: 0.25s; }
+    .clay-card:nth-child(6) { animation-delay: 0.3s; }
+    .clay-card:nth-child(7) { animation-delay: 0.35s; }
+    .clay-card:nth-child(8) { animation-delay: 0.4s; }
+    .clay-card:nth-child(9) { animation-delay: 0.45s; }
+    .clay-card:nth-child(10) { animation-delay: 0.5s; }
+    .clay-card:nth-child(11) { animation-delay: 0.55s; }
+    .clay-card:nth-child(12) { animation-delay: 0.6s; }
+
+    @keyframes cardAppear {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .clay-card:hover {
+      transform: translateY(-6px) scale(1.01);
+      box-shadow: 
+        20px 20px 36px rgba(166, 180, 200, 0.7),
+        -16px -16px 36px rgba(255, 255, 255, 0.95),
+        inset 2px 2px 6px rgba(255, 255, 255, 0.9),
+        inset -4px -4px 10px rgba(166, 180, 200, 0.35);
+    }
+
+    .card-icon {
+      font-size: 2.2rem;
+      width: 3.5rem;
+      height: 3.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef3f9;
+      border-radius: 1.5rem;
+      margin-bottom: 1.2rem;
+      color: #2e4055;
+      box-shadow: 
+        6px 6px 12px rgba(166, 180, 200, 0.6),
+        -6px -6px 12px #ffffff,
+        inset 1px 1px 3px #ffffff,
+        inset -3px -3px 6px rgba(166, 180, 200, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .clay-card:hover .card-icon {
+      transform: scale(1.05) rotate(3deg);
+      box-shadow: 
+        8px 8px 16px rgba(166, 180, 200, 0.7),
+        -8px -8px 16px #ffffff,
+        inset 1px 1px 3px #ffffff,
+        inset -3px -3px 8px rgba(166, 180, 200, 0.35);
+    }
+
+    .clay-card h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      color: #1f2b3c;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+    }
+
+    .clay-card:hover h3 {
+      color: #2a3b4f;
+    }
+
+    .clay-card h3 i {
+      font-size: 1.1rem;
+      opacity: 0.7;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .clay-card:hover h3 i {
+      opacity: 1;
+      transform: translateX(2px);
+    }
+
+    .clay-card p {
+      font-size: 0.95rem;
+      color: #3e4f63;
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+      flex: 1;
+      transition: color 0.3s ease;
+    }
+
+    .clay-card:hover p {
+      color: #2a3b4f;
+    }
+
+    .clay-card .badge-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.8rem;
+    }
+
+    .badge {
+      background: rgba(255, 255, 255, 0.7);
+      padding: 0.25rem 0.8rem;
+      border-radius: 2rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #2e4055;
+      box-shadow: inset 2px 2px 5px rgba(166, 180, 200, 0.4), inset -2px -2px 6px #ffffff;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      transition: all 0.25s ease;
+      cursor: default;
+    }
+
+    .badge:hover {
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: inset 2px 2px 6px rgba(166, 180, 200, 0.5), inset -2px -2px 8px #ffffff, 0 4px 10px rgba(166, 180, 200, 0.3);
+      transform: translateY(-1px);
+    }
+
+    /* wide row */
+    .wide-clay-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.8rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .wide-clay-card {
+      background: #eef3f9;
+      border-radius: 2.5rem;
+      padding: 1.5rem 1.8rem;
+      display: flex;
+      align-items: center;
+      gap: 1.6rem;
+      box-shadow: 
+        12px 12px 24px rgba(166, 180, 200, 0.6),
+        -12px -12px 24px rgba(255, 255, 255, 0.9),
+        inset 2px 2px 6px rgba(255, 255, 255, 0.9),
+        inset -4px -4px 10px rgba(166, 180, 200, 0.3);
+      transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.3s ease;
+      opacity: 0;
+      animation: wideAppear 0.6s ease-out forwards;
+    }
+
+    .wide-clay-card:nth-child(1) { animation-delay: 0.65s; }
+    .wide-clay-card:nth-child(2) { animation-delay: 0.75s; }
+
+    @keyframes wideAppear {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .wide-clay-card:hover {
+      transform: translateY(-5px) scale(1.005);
+      box-shadow: 
+        18px 18px 32px rgba(166, 180, 200, 0.7),
+        -16px -16px 32px rgba(255, 255, 255, 0.95),
+        inset 2px 2px 6px rgba(255, 255, 255, 0.9),
+        inset -4px -4px 10px rgba(166, 180, 200, 0.35);
+    }
+
+    .wide-icon {
+      font-size: 2.5rem;
+      width: 4.5rem;
+      height: 4.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef3f9;
+      border-radius: 2rem;
+      color: #2e4055;
+      box-shadow: 
+        6px 6px 14px rgba(166, 180, 200, 0.6),
+        -6px -6px 14px #ffffff,
+        inset 1px 1px 3px #ffffff,
+        inset -3px -3px 8px rgba(166, 180, 200, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .wide-clay-card:hover .wide-icon {
+      transform: scale(1.04) rotate(2deg);
+      box-shadow: 
+        8px 8px 18px rgba(166, 180, 200, 0.7),
+        -8px -8px 18px #ffffff,
+        inset 1px 1px 3px #ffffff,
+        inset -3px -3px 8px rgba(166, 180, 200, 0.35);
+    }
+
+    .wide-content h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1f2b3c;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: color 0.3s ease;
+    }
+
+    .wide-clay-card:hover .wide-content h3 {
+      color: #2a3b4f;
+    }
+
+    .wide-content p {
+      font-size: 0.95rem;
+      color: #3e4f63;
+      font-weight: 500;
+      line-height: 1.5;
+      transition: color 0.3s ease;
+    }
+
+    .wide-clay-card:hover .wide-content p {
+      color: #2a3b4f;
+    }
+
+    /* ===== CONTACT SECTION ===== */
+    .contact-section {
+      margin-top: 2.5rem;
+      padding: 2rem 2rem 1.8rem 2rem;
+      background: #eef3f9;
+      border-radius: 3rem;
+      box-shadow: 
+        14px 14px 28px rgba(166, 180, 200, 0.6),
+        -14px -14px 28px rgba(255, 255, 255, 0.9),
+        inset 2px 2px 8px rgba(255, 255, 255, 0.9),
+        inset -4px -4px 12px rgba(166, 180, 200, 0.3);
+      transition: all 0.35s cubic-bezier(0.23, 1, 0.32, 1);
+      animation: contactAppear 0.7s ease-out 0.9s both;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    @keyframes contactAppear {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .contact-section:hover {
+      box-shadow: 
+        18px 18px 36px rgba(166, 180, 200, 0.7),
+        -16px -16px 36px rgba(255, 255, 255, 0.95),
+        inset 2px 2px 8px rgba(255, 255, 255, 0.9),
+        inset -4px -4px 14px rgba(166, 180, 200, 0.35);
+      transform: translateY(-3px);
+    }
+
+    .contact-title {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1f2b3c;
+      letter-spacing: -0.01em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 6px rgba(255, 255, 255, 0.8);
+    }
+
+    .contact-title i {
+      font-size: 1.4rem;
+      color: #3a4f66;
+      filter: drop-shadow(2px 2px 6px rgba(255, 255, 255, 0.9));
+      transition: transform 0.3s ease;
+    }
+
+    .contact-section:hover .contact-title i {
+      transform: rotate(8deg) scale(1.08);
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      background: #eef3f9;
+      padding: 1.1rem 1.4rem;
+      border-radius: 2.2rem;
+      box-shadow: 
+        8px 8px 18px rgba(166, 180, 200, 0.55),
+        -8px -8px 18px rgba(255, 255, 255, 0.9),
+        inset 1px 1px 4px rgba(255, 255, 255, 0.9),
+        inset -3px -3px 8px rgba(166, 180, 200, 0.25);
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      cursor: pointer;
+    }
+
+    .contact-item:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 
+        14px 14px 26px rgba(166, 180, 200, 0.7),
+        -12px -12px 26px rgba(255, 255, 255, 0.95),
+        inset 1px 1px 4px rgba(255, 255, 255, 0.9),
+        inset -3px -3px 8px rgba(166, 180, 200, 0.3);
+    }
+
+    .contact-icon {
+      font-size: 1.6rem;
+      width: 3rem;
+      height: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #eef3f9;
+      border-radius: 1.4rem;
+      color: #2e4055;
+      box-shadow: 
+        5px 5px 12px rgba(166, 180, 200, 0.6),
+        -5px -5px 12px #ffffff,
+        inset 1px 1px 3px #ffffff,
+        inset -2px -2px 6px rgba(166, 180, 200, 0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      flex-shrink: 0;
+    }
+
+    .contact-item:hover .contact-icon {
+      transform: scale(1.06) rotate(4deg);
+      box-shadow: 
+        7px 7px 16px rgba(166, 180, 200, 0.7),
+        -7px -7px 16px #ffffff,
+        inset 1px 1px 3px #ffffff,
+        inset -2px -2px 8px rgba(166, 180, 200, 0.35);
+    }
+
+    .contact-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+      overflow: hidden;
+    }
+
+    .contact-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #6a7e94;
+      transition: color 0.3s ease;
+    }
+
+    .contact-item:hover .contact-label {
+      color: #4f5f73;
+    }
+
+    .contact-value {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #1f2b3c;
+      word-break: break-word;
+      transition: color 0.3s ease;
+    }
+
+    .contact-item:hover .contact-value {
+      color: #0d1a2b;
+    }
+
+    /* ===== DEVELOPER CARD WITH PHOTO ===== */
+    .developer-highlight {
+      background: #eef3f9;
+      padding: 1.2rem 1.4rem;
+      border-radius: 2.2rem;
+      box-shadow: 
+        8px 8px 18px rgba(166, 180, 200, 0.55),
+        -8px -8px 18px rgba(255, 255, 255, 0.9),
+        inset 1px 1px 4px rgba(255, 255, 255, 0.9),
+        inset -3px -3px 8px rgba(166, 180, 200, 0.25);
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      cursor: default;
+    }
+
+    .developer-highlight:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 
+        14px 14px 26px rgba(166, 180, 200, 0.7),
+        -12px -12px 26px rgba(255, 255, 255, 0.95),
+        inset 1px 1px 4px rgba(255, 255, 255, 0.9),
+        inset -3px -3px 8px rgba(166, 180, 200, 0.3);
+    }
+
+    /* Developer photo with clay frame */
+    .developer-photo-frame {
+      position: relative;
+      width: 4.2rem;
+      height: 4.2rem;
+      border-radius: 1.6rem;
+      background: #eef3f9;
+      box-shadow: 
+        6px 6px 14px rgba(166, 180, 200, 0.6),
+        -6px -6px 14px #ffffff,
+        inset 1px 1px 3px #ffffff,
+        inset -2px -2px 6px rgba(166, 180, 200, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .developer-highlight:hover .developer-photo-frame {
+      transform: scale(1.06) rotate(3deg);
+      box-shadow: 
+        8px 8px 18px rgba(166, 180, 200, 0.7),
+        -8px -8px 18px #ffffff,
+        inset 1px 1px 3px #ffffff,
+        inset -2px -2px 8px rgba(166, 180, 200, 0.35);
+    }
+
+    .developer-photo {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 1.4rem;
+      display: block;
+      transition: transform 0.3s ease, filter 0.3s ease;
+      filter: brightness(0.98) contrast(1.02);
+    }
+
+    .developer-highlight:hover .developer-photo {
+      transform: scale(1.06);
+      filter: brightness(1.02) contrast(1.04);
+    }
+
+    /* Small online status dot */
+    .online-dot {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      width: 0.8rem;
+      height: 0.8rem;
+      background: #4caf7a;
+      border-radius: 50%;
+      border: 2px solid #eef3f9;
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.6);
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.15); opacity: 0.8; }
+    }
+
+    /* footer */
+    .footer-note {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #6a7e94;
+      letter-spacing: 0.02em;
+      background: rgba(255, 255, 255, 0.4);
+      padding: 0.8rem 1.5rem;
+      border-radius: 3rem;
+      display: inline-block;
+      width: auto;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: inset 3px 3px 10px rgba(166, 180, 200, 0.4), inset -4px -4px 12px #ffffff;
+      backdrop-filter: blur(2px);
+      transition: all 0.3s ease;
+      animation: fadeInUp 0.6s ease-out 1s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .footer-note:hover {
+      background: rgba(255, 255, 255, 0.7);
+      box-shadow: inset 3px 3px 12px rgba(166, 180, 200, 0.5), inset -4px -4px 14px #ffffff, 0 6px 16px rgba(166, 180, 200, 0.3);
+    }
+
+    .footer-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    /* responsiveness */
+    @media (max-width: 700px) {
+      .clay-container {
+        padding: 2rem 1.5rem;
+        border-radius: 3rem;
+      }
+      .header h1 {
+        font-size: 2rem;
+      }
+      .wide-clay-row {
+        grid-template-columns: 1fr;
+      }
+      .wide-clay-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+      }
+      .wide-icon {
+        margin-bottom: 0.25rem;
+      }
+      .contact-grid {
+        grid-template-columns: 1fr;
+      }
+      .contact-item,
+      .developer-highlight {
+        padding: 1rem 1.2rem;
+      }
+      .developer-photo-frame {
+        width: 3.6rem;
+        height: 3.6rem;
+        border-radius: 1.4rem;
+      }
+      .developer-photo {
+        border-radius: 1.2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+      .header h1 {
+        font-size: 1.7rem;
+      }
+      .contact-value {
+        font-size: 0.85rem;
+      }
+      .contact-label {
+        font-size: 0.65rem;
+      }
+      .contact-section {
+        padding: 1.5rem 1.2rem;
+      }
+      .developer-photo-frame {
+        width: 3.2rem;
+        height: 3.2rem;
+        border-radius: 1.2rem;
+      }
+      .developer-photo {
+        border-radius: 1rem;
+      }
+    }
+
+    /* accessibility */
+    .emoji-bullet {
+      font-size: 1.1rem;
+      margin-right: 0.2rem;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* smooth global transition */
+    .clay-card, .wide-clay-card, .clay-container, .badge, .card-icon, .wide-icon,
+    .contact-item, .developer-highlight, .contact-icon, .developer-photo-frame, .developer-photo {
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    }
+  </style>
+</head>
+<body>
+  <div class="clay-container">
+    <!-- HEADER -->
+    <div class="header">
+      <h1>
+        <i class="fas fa-cube"></i>
+        All‑in‑One E‑Commerce, POS & Inventory provided By MAKUBEX 
+        <i class="fas fa-store"></i>
+      </h1>
+    </div>
+
+    <!-- FEATURES GRID -->
+    <div class="features-grid">
+      <!-- 1. Online Store -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-shopping-cart"></i></div>
+        <h3>🛒 Online Store <i class="fas fa-globe"></i></h3>
+        <p>E‑Commerce – Sell products online and manage orders like Lazada and Shopee.</p>
+        <div class="badge-list">
+          <span class="badge">multi‑channel</span>
+          <span class="badge">order sync</span>
+        </div>
+      </div>
+
+      <!-- 2. POS System -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-credit-card"></i></div>
+        <h3>💳 POS System</h3>
+        <p>Process sales, payments, receipts, refunds, and discounts.</p>
+        <div class="badge-list">
+          <span class="badge">receipts</span>
+          <span class="badge">refunds</span>
+          <span class="badge">discounts</span>
+        </div>
+      </div>
+
+      <!-- 3. Sales & Revenue Tracking -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+        <h3>💰 Sales & Revenue</h3>
+        <p>Track daily, weekly, and monthly sales, revenue, profit, and best‑selling products.</p>
+        <div class="badge-list">
+          <span class="badge">profit</span>
+          <span class="badge">best sellers</span>
+        </div>
+      </div>
+
+      <!-- 4. Inventory Management -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-boxes"></i></div>
+        <h3>📦 Inventory</h3>
+        <p>Track stock, stock‑in, stock‑out, and low‑stock items.</p>
+        <div class="badge-list">
+          <span class="badge">stock in/out</span>
+          <span class="badge">low‑stock</span>
+        </div>
+      </div>
+
+      <!-- 5. Product Management -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-tags"></i></div>
+        <h3>🏷️ Product Management</h3>
+        <p>Manage products, prices, categories, SKUs, and barcodes.</p>
+        <div class="badge-list">
+          <span class="badge">SKU</span>
+          <span class="badge">barcode</span>
+          <span class="badge">categories</span>
+        </div>
+      </div>
+
+      <!-- 6. Customer Management -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-users"></i></div>
+        <h3>👥 Customer Management</h3>
+        <p>Store customer information and purchase history.</p>
+        <div class="badge-list">
+          <span class="badge">profiles</span>
+          <span class="badge">history</span>
+        </div>
+      </div>
+
+      <!-- 7. Order & Delivery Management -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-truck"></i></div>
+        <h3>🚚 Order & Delivery</h3>
+        <p>Manage orders, deliveries, pickups, and order status.</p>
+        <div class="badge-list">
+          <span class="badge">delivery</span>
+          <span class="badge">pickup</span>
+        </div>
+      </div>
+
+      <!-- 8. Multi-Branch Management -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-store-alt"></i></div>
+        <h3>🏪 Multi‑Branch</h3>
+        <p>Manage multiple stores, branches, and warehouses.</p>
+        <div class="badge-list">
+          <span class="badge">warehouses</span>
+          <span class="badge">stores</span>
+        </div>
+      </div>
+
+      <!-- 9. Supplier & Purchasing -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-truck-loading"></i></div>
+        <h3>🛍️ Supplier & Purchasing</h3>
+        <p>Manage suppliers, purchase orders, and product receiving.</p>
+        <div class="badge-list">
+          <span class="badge">purchase orders</span>
+          <span class="badge">receiving</span>
+        </div>
+      </div>
+
+      <!-- 10. Discounts & Loyalty -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-gift"></i></div>
+        <h3>🎁 Discounts & Loyalty</h3>
+        <p>Create promotions, coupons, discounts, and loyalty rewards.</p>
+        <div class="badge-list">
+          <span class="badge">coupons</span>
+          <span class="badge">loyalty</span>
+        </div>
+      </div>
+
+      <!-- 11. Reports & Dashboard -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-chart-pie"></i></div>
+        <h3>📊 Reports & Dashboard</h3>
+        <p>View sales, revenue, inventory, profit, and overall business performance.</p>
+        <div class="badge-list">
+          <span class="badge">analytics</span>
+          <span class="badge">KPIs</span>
+        </div>
+      </div>
+
+      <!-- 12. User & Access Management -->
+      <div class="clay-card">
+        <div class="card-icon"><i class="fas fa-user-shield"></i></div>
+        <h3>👤 User & Access</h3>
+        <p>Control employees, cashiers, managers, and permissions.</p>
+        <div class="badge-list">
+          <span class="badge">roles</span>
+          <span class="badge">permissions</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- WIDE ROW: Notifications & Security -->
+    <div class="wide-clay-row">
+      <!-- Notifications -->
+      <div class="wide-clay-card">
+        <div class="wide-icon"><i class="fas fa-bell"></i></div>
+        <div class="wide-content">
+          <h3>🔔 Notifications</h3>
+          <p>Receive alerts for orders, payments, and low inventory.</p>
+          <div class="badge-list" style="margin-top: 8px;">
+            <span class="badge">real‑time</span>
+            <span class="badge">order alerts</span>
+            <span class="badge">low stock</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Security & Backup -->
+      <div class="wide-clay-card">
+        <div class="wide-icon"><i class="fas fa-lock"></i></div>
+        <div class="wide-content">
+          <h3>🔐 Security & Backup</h3>
+          <p>Protect business data with user permissions, activity logs, and backups.</p>
+          <div class="badge-list" style="margin-top: 8px;">
+            <span class="badge">activity logs</span>
+            <span class="badge">backups</span>
+            <span class="badge">permissions</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== CONTACT / DEVELOPER SECTION ===== -->
+    <div class="contact-section">
+      <div class="contact-title">
+        <i class="fas fa-address-card"></i>
+        Contact & Developer
+        <i class="fas fa-code"></i>
+      </div>
+
+      <div class="contact-grid">
+        <!-- Email -->
+        <div class="contact-item" onclick="window.location.href='mailto:kendumaraog6@gmail.com'">
+          <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+          <div class="contact-detail">
+            <span class="contact-label">Email</span>
+            <span class="contact-value">kendumaraog6@gmail.com</span>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="contact-item" onclick="window.location.href='tel:09319511199'">
+          <div class="contact-icon"><i class="fas fa-phone-alt"></i></div>
+          <div class="contact-detail">
+            <span class="contact-label">Number</span>
+            <span class="contact-value">09319511199</span>
+          </div>
+        </div>
+
+        <!-- Developer Name WITH PHOTO -->
+        <div class="developer-highlight">
+          <div class="developer-photo-frame">
+            <!-- 
+              🔁 REPLACE THE IMAGE BELOW WITH YOUR OWN PHOTO
+              Change the src="" to your image URL or local file path
+              Example: src="my-photo.jpg" or src="https://example.com/photo.jpg"
+            -->
+            <img 
+              src="profile.jfif" 
+              alt="Ken Laurence Dumara-og" 
+              class="developer-photo"
+            >
+            <span class="online-dot"></span>
+          </div>
+          <div class="contact-detail">
+            <span class="contact-label">Developer</span>
+            <span class="contact-value">Ken Laurence Dumara‑og</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  
+  </div>
+</body>
+</html>
